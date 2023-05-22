@@ -1,6 +1,5 @@
 const swap = (arr: number[], first: number, second: number) => {
 	[arr[first], arr[second]] = [arr[second], arr[first]];
-	console.log(first, second);
 };
 const delayPromis = (delay: number) =>
 	new Promise((resolve) => {

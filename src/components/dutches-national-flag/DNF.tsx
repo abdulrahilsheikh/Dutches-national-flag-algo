@@ -14,7 +14,7 @@ const VerticalBar = ({ index, value }: VerticalBarType) => {
 		<div
 			id={`idx-${index}`}
 			style={{ left: `${index * space + 1}rem` }}
-			className={`transition-all w-2 rounded-full ${barHeightTypes[value]} bg-slate-200 absolute bottom-4`}></div>
+			className={`transition-all w-2 rounded-full ${barHeightTypes[value]}  absolute bottom-4`}></div>
 	);
 };
 
@@ -22,6 +22,8 @@ const DNF = ({}: Props) => {
 	const [array, setArray] = useState([1, 2, 1, 0, 1, 0, 2, 0, 1, 2, 1, 2, 2]);
 	const [size, setSize] = useState(46);
 	const [delay, setDelay] = useState(0.25);
+	const [start, setStart] = useState(false);
+	const [shuffled, setShuffled] = useState(false);
 	const onSizeChangeHandler = (number: number) => {
 		if (number > 46) {
 			setSize(46);
@@ -29,24 +31,41 @@ const DNF = ({}: Props) => {
 			setSize(number);
 		}
 	};
-
+	const visualize = async () => {
+		setStart(true);
+		setShuffled(true);
+		await visualizeChange(array, delay, space);
+		setStart(false);
+	};
 	useEffect(() => {
 		setArray(generateRandom(size));
 	}, [size]);
 	const resetSort = () => {
+		setStart(false);
+		setShuffled(false);
 		setArray(generateRandom(size));
 	};
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex gap-4">
 				<button
-					onClick={() => visualizeChange(array, delay, space)}
-					className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200 w-fit">
+					disabled={shuffled}
+					onClick={() => {
+						visualize();
+					}}
+					className={`flex-shrink-0 px-4 py-2 text-base font-semibold text-white  rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200 ${
+						shuffled
+							? "bg-gray-500 hover:bg-gray-500"
+							: "bg-purple-600"
+					} w-fit`}>
 					Sort
 				</button>
 				<button
+					disabled={start}
 					onClick={resetSort}
-					className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-200 w-fit">
+					className={`flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-200 w-fit  ${
+						start ? "bg-gray-500 hover:bg-gray-500" : "bg-red-600"
+					}`}>
 					Re-shuffle
 				</button>
 			</div>
