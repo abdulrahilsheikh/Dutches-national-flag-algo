@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://abdulrahilsheikh.github.io/Dutches-national-flag-algo",
+  "homepage": "https://abdulrahilsheikh.github.io/Dutches-national-flag-algo",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
